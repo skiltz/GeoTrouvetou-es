@@ -1,7 +1,7 @@
 @echo off
 SETLOCAL
 
-TITLE Elasticsearch Service 1.4.0
+TITLE Elasticsearch Service 1.4.1
 
 if NOT DEFINED JAVA_HOME goto err
 
@@ -31,7 +31,7 @@ if EXIST "%EXECUTABLE%" goto okExe
 echo elasticsearch-service-(x86|x64).exe was not found...
 
 :okExe
-set ES_VERSION=1.4.0
+set ES_VERSION=1.4.1
 
 if "%LOG_DIR%" == "" set LOG_DIR=%ES_HOME%\logs
 
@@ -130,7 +130,7 @@ call:convertxm %ES_MAX_MEM% JVM_XMX
 REM java_opts might be empty - init to avoid tripping commons daemon (if the command starts with ;)
 if "%JAVA_OPTS%" == "" set JAVA_OPTS=-XX:+UseParNewGC
 
-CALL %ES_HOME%\bin\elasticsearch.in.bat
+CALL "%ES_HOME%\bin\elasticsearch.in.bat"
 
 rem thread stack size
 set JVM_SS=256
