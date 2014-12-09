@@ -219,6 +219,8 @@ node.max_local_storage_nodes: 1
 #
 transport.tcp.compress: true
 
+http.compression: true
+
 # Set a custom port to listen for HTTP traffic:
 #
 # http.port: 9200
@@ -283,8 +285,8 @@ http.cors.enabled: true
 # cluster.routing.allocation.node_concurrent_recoveries: 2
 
 # Set to throttle throughput when recovering (eg. 100mb, by default 20mb):
-#
-# indices.recovery.max_bytes_per_sec: 20mb
+# 
+indices.recovery.max_bytes_per_sec: 100kb
 
 # Set to limit the number of open concurrent streams when
 # recovering a shard from a peer:
