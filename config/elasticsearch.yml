@@ -293,6 +293,8 @@ indices.recovery.max_bytes_per_sec: 100kb
 #
 # indices.recovery.concurrent_streams: 5
 
+indices.store.throttle.max_bytes_per_sec: 100kb
+#Will slow down app?
 
 ################################## Discovery ##################################
 
