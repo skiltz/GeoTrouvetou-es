@@ -1,0 +1,206 @@
+{
+  "mappings": {
+    "commune": {
+      "_id": {
+        "path": "id"
+      },
+      "_source": {
+        "enabled": true
+      },
+      "properties": {
+        "codePostaux": {
+          "type": "string",
+          "index": "not_analyzed",
+          "index_name": "codePostaux",
+          "copy_to": [
+            "collector"
+          ]
+        }
+      }
+    },
+    "adresse": {
+      "dynamic": false,
+      "_all": {
+        "enabled": false
+      },
+      "_id": {
+        "path": "id"
+      },
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "importance": {
+          "type": "float"
+        },
+        "num": {
+          "type": "string",
+          "index_analyzer": "housenumber_analyzer",
+          "copy_to": [
+            "collector"
+          ]
+        },
+        "ordinal": {
+          "type": "string",
+          "index_analyzer": "housenumber_analyzer",
+          "copy_to": [
+            "collector"
+          ]
+        },
+        "voie": {
+          "type": "string",
+          "index_analyzer": "raw_stringanalyzer",
+          "copy_to": [
+            "collector"
+          ]
+        },
+        "geo": {
+          "type": "geo_point"
+        },
+        "codePostal": {
+          "type": "string",
+          "index": "not_analyzed",
+          "copy_to": [
+            "collector"
+          ]
+        },
+        "commune": {
+          "index_analyzer": "raw_stringanalyzer",
+          "type": "string",
+          "copy_to": [
+            "collector"
+          ]
+        },
+        "context": {
+          "type": "string",
+          "index": "no",
+          "copy_to": [
+            "collector"
+          ]
+        },
+        "street": {
+          "type": "object",
+          "properties": {
+            "default": {
+              "index": "no",
+              "type": "string",
+              "copy_to": [
+                "collector"
+              ]
+            },
+            "alt": {
+              "index": "no",
+              "type": "string",
+              "copy_to": [
+                "collector"
+              ]
+            },
+            "keywords": {
+              "type": "string",
+              "index_analyzer": "raw_stringanalyzer"
+            }
+          }
+        },
+        "collector": {
+          "type": "string",
+          "analyzer": "stringanalyzer"
+        }
+      }
+    }
+  },
+  "settings": {
+    "index": {
+      "analysis": {
+        "char_filter": {
+          "punctuationgreedy": {
+            "type": "pattern_replace",
+            "pattern": "[\\.,]"
+          }
+        },
+        "analyzer": {
+          "stringanalyzer": {
+            "char_filter": [
+              "punctuationgreedy"
+            ],
+            "filter": [
+              "word_delimiter",
+              "lowercase",
+              "asciifolding",
+              "synonyms",
+              "banolength",
+              "unique",
+              "wordending",
+              "banongram"
+            ],
+            "tokenizer": "standard"
+          },
+          "search_stringanalyzer": {
+            "char_filter": [
+              "punctuationgreedy"
+            ],
+            "filter": [
+              "word_delimiter",
+              "lowercase",
+              "asciifolding",
+              "synonyms",
+              "banolength",
+              "unique",
+              "wordendingautocomplete"
+            ],
+            "tokenizer": "standard"
+          },
+          "raw_stringanalyzer": {
+            "char_filter": [
+              "punctuationgreedy"
+            ],
+            "filter": [
+              "word_delimiter",
+              "lowercase",
+              "asciifolding",
+              "synonyms",
+              "banolength",
+              "unique",
+              "wordending"
+            ],
+            "tokenizer": "standard"
+          },
+          "housenumber_analyzer": {
+            "char_filter": [
+              "punctuationgreedy"
+            ],
+            "filter": [
+              "word_delimiter",
+              "lowercase",
+              "asciifolding",
+              "wordending"
+            ],
+            "tokenizer": "standard"
+          }
+        },
+        "filter": {
+          "banongram": {
+            "min_gram": "2",
+            "type": "edgeNGram",
+            "max_gram": "20"
+          },
+          "wordending": {
+            "type": "wordending",
+            "mode": "default"
+          },
+          "banolength": {
+            "min": "2",
+            "type": "length"
+          },
+          "wordendingautocomplete": {
+            "type": "wordending",
+            "mode": "autocomplete"
+          },
+          "synonyms": {
+            "type": "synonym",
+            "synonyms_path": "synonyms.txt"
+          }
+        }
+      }
+    }
+  }
+}
